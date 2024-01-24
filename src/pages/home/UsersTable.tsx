@@ -3,19 +3,12 @@ import { motion } from "framer-motion";
 
 import { User } from "~/shared/api";
 import { Edit, Trash } from "~/shared/assets/icons";
-import { Spinner } from "~/shared/ui/spinner";
 
-import {
-  $usersListError,
-  $usersListPending,
-  userSelected,
-  usersSorting,
-} from "./model";
+import { $usersListError, userSelected, usersSorting } from "./model";
 
 export const UsersTable = () => {
-  const [users, usersPending, usersError, handleSelect] = useUnit([
+  const [users, usersError, handleSelect] = useUnit([
     usersSorting.$sortedRecords,
-    $usersListPending,
     $usersListError,
     userSelected,
   ]);
