@@ -20,7 +20,6 @@ import { useUnit } from "effector-react";
 import { AnimatePresence, motion } from "framer-motion";
 import moment from "moment/min/moment-with-locales";
 
-// import moment from "moment";
 import "chartjs-adapter-moment";
 
 import { Close } from "~/shared/assets/icons";

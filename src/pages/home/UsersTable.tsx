@@ -76,7 +76,7 @@ export const UsersTable = () => {
                           key={id}
                           layout
                           onClick={() => handleSelect({ id })}
-                          className="border-gray3 flex h-16 justify-start self-stretch border-b text-center text-xs font-medium"
+                          className="border-gray3 hover:bg-gray5 flex h-16 justify-start self-stretch border-b text-center text-xs font-medium"
                         >
                           <td className="flex min-w-[250px] flex-[1_0_0] items-center justify-center gap-2.5 px-5 py-3.5">
                             {email}
@@ -146,7 +146,7 @@ const UserTableTitle = ({
 
   return (
     <span
-      className="select-none font-medium capitalize"
+      className="hover:text-gray6/80 select-none font-medium capitalize"
       role="button"
       tabIndex={0}
       onClick={() => sortedBy(column)}

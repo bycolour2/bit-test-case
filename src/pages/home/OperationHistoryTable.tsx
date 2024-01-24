@@ -14,7 +14,7 @@ export const OperationHistoryTable = () => {
   return (
     <div className="max-h-[492px] overflow-y-auto lg:w-[425px]">
       <table className="w-full">
-        <thead>
+        <thead className="sticky top-0">
           <tr className="bg-base-black text-gray6 flex h-11 w-full items-start self-stretch  rounded-t-lg text-xs font-medium">
             <td className="flex flex-[1_0_0] items-center justify-center gap-2.5 self-stretch px-5 py-3.5">
               <OperationHistoryTableTitle column={"type"} title="Тип" />
@@ -57,37 +57,6 @@ export const OperationHistoryTable = () => {
                 );
               })
             : null}
-          {/* {selectedUser
-            ? transactions[selectedUser.id].map(
-                ({ id, type, amount, created_at }) => {
-                  return (
-                    <tr
-                      key={id}
-                      className="border-gray3 flex h-16 justify-start self-stretch border-b text-center text-xs font-medium"
-                    >
-                      <td className="flex flex-[1_0_0] items-center justify-center gap-2.5 px-5 py-3.5">
-                        {transactionTypes[type].type}
-                      </td>
-                      <td className="flex flex-[1_0_0] items-center justify-center gap-2.5 px-5 py-3.5">
-                        <p
-                          className={cn(
-                            transactionTypes[type].destructive
-                              ? "text-red-600"
-                              : "text-green-600",
-                          )}
-                        >
-                          {transactionTypes[type].sign}
-                          {amount.toLocaleString()} BTKN
-                        </p>
-                      </td>
-                      <td className="flex flex-[1_0_0] items-center justify-center gap-2.5 px-5 py-3.5">
-                        {new Date(created_at).toLocaleString()}
-                      </td>
-                    </tr>
-                  );
-                },
-              )
-            : null} */}
         </tbody>
       </table>
     </div>
@@ -114,7 +83,7 @@ const OperationHistoryTableTitle = ({
 
   return (
     <span
-      className="select-none font-medium capitalize"
+      className="hover:text-gray6/80 select-none font-medium capitalize"
       role="button"
       tabIndex={0}
       onClick={() => sortedBy(column)}

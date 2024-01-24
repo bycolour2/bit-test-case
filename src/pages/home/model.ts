@@ -5,7 +5,6 @@ import { debounce, reset } from "patronum";
 
 import { Request, requestFx, User } from "~/shared/api";
 import { Transaction, UserListResponse } from "~/shared/api/common";
-// import { createFilters } from "~/shared/lib/createFilters";
 import { Comparator, createSorting } from "~/shared/lib/createSorting";
 
 export type TransactionTypes = "WRITE_OFF" | "REPLENISH";
@@ -28,6 +27,7 @@ export const pageLoaded = createEvent();
 export const searchChanged = createEvent<string>();
 export const userSelected = createEvent<{ id: string }>();
 export const drawerClosed = createEvent();
+export const currentPageChanged = createEvent<number>();
 
 export const $search = createStore("");
 export const $usersList = createStore<User[]>([]);
@@ -41,15 +41,26 @@ export const $transactionsMap = createStore<Record<string, Transaction[]>>({});
 export const $selectedUserTransactionsPending = transactionsGetFx.pending;
 export const $selectedUserTransactionsError = createStore<string | null>(null);
 
+export const $currentPage = createStore(1);
+export const $maxPage = createStore(1);
+
 $search.on(searchChanged, (_, value) => value);
 
 sample({
-  clock: pageLoaded,
-  fn: (): Request => ({
+  clock: [pageLoaded, $currentPage],
+  source: $currentPage,
+  fn: (page): Request => ({
     method: "GET",
     path: "user/list",
+    query: { page: page },
   }),
   target: usersGetFx,
+});
+
+sample({
+  clock: usersGetFx.doneData,
+  fn: (result) => result.pages,
+  target: $maxPage,
 });
 
 const debouncedSearchChanged = debounce({
@@ -85,6 +96,8 @@ sample({
   target: $usersListError,
 });
 
+// drawer logic
+
 $isDrawerOpen.on(userSelected, () => true);
 
 sample({
@@ -117,6 +130,8 @@ reset({
   clock: drawerClosed,
   target: [$selectedUser],
 });
+
+// sorting tables
 
 const userComparator: Comparator<User> = (records, field, order) => {
   if (!field) return 0;
@@ -167,4 +182,11 @@ export const transactionSorting = createSorting({
   comparator: transactionComparator,
   initialField: "created_at" as Leaves<Transaction>,
   initialOrder: "desc",
+});
+
+// pagination
+
+sample({
+  clock: currentPageChanged,
+  target: $currentPage,
 });
