@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { attach, combine, createEvent, createStore, sample } from "effector";
 import { get } from "lodash";
-import { debounce, reset } from "patronum";
+import { debounce, debug, reset } from "patronum";
 
 import { Request, requestFx, User } from "~/shared/api";
 import { Transaction, UserListResponse } from "~/shared/api/common";
@@ -44,18 +44,37 @@ export const $selectedUserTransactionsError = createStore<string | null>(null);
 export const $currentPage = createStore(1);
 export const $maxPage = createStore(1);
 
+// search input
+
 $search.on(searchChanged, (_, value) => value);
 
+const debouncedSearchChanged = debounce({
+  source: searchChanged,
+  timeout: 800,
+});
+
 sample({
-  clock: [pageLoaded, $currentPage],
-  source: $currentPage,
-  fn: (page): Request => ({
+  clock: debouncedSearchChanged,
+  source: $search,
+  fn: (_, search): Request => ({
     method: "GET",
     path: "user/list",
-    query: { page: page },
+    query: { page: 1, search },
   }),
   target: usersGetFx,
 });
+
+sample({
+  clock: debouncedSearchChanged,
+  fn: () => 1,
+  target: $currentPage,
+});
+
+debug($currentPage);
+
+reset({ clock: debouncedSearchChanged, target: $usersListError });
+
+// pagination
 
 sample({
   clock: usersGetFx.doneData,
@@ -63,9 +82,22 @@ sample({
   target: $maxPage,
 });
 
-const debouncedSearchChanged = debounce({
-  source: searchChanged,
-  timeout: 800,
+sample({
+  clock: currentPageChanged,
+  target: $currentPage,
+});
+
+// fetch users list logic
+
+sample({
+  clock: [pageLoaded, currentPageChanged],
+  source: { page: $currentPage, search: $search, maxPage: $maxPage },
+  fn: ({ page, search }): Request => ({
+    method: "GET",
+    path: "user/list",
+    query: { page, search },
+  }),
+  target: usersGetFx,
 });
 
 $usersList.on(
@@ -74,23 +106,10 @@ $usersList.on(
 );
 
 sample({
-  clock: debouncedSearchChanged,
-  source: $search,
-  fn: (_, search): Request => ({
-    method: "GET",
-    path: "user/list",
-    query: { search },
-  }),
-  target: usersGetFx,
-});
-
-sample({
   clock: usersGetFx.failData,
   fn: ({ message }) => message,
   target: $usersListError,
 });
-
-reset({ clock: debouncedSearchChanged, target: $usersListError });
 
 // drawer logic
 
@@ -178,11 +197,4 @@ export const transactionSorting = createSorting({
   comparator: transactionComparator,
   initialField: "created_at" as Leaves<Transaction>,
   initialOrder: "desc",
-});
-
-// pagination
-
-sample({
-  clock: currentPageChanged,
-  target: $currentPage,
 });
