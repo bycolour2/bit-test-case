@@ -39,29 +39,6 @@ export const Pagination = () => {
           {i + 1}
         </button>
       ))}
-      {/* <div
-        className={cn(
-          "flex items-center justify-center gap-0.5 rounded-lg px-3.5 py-1.5 text-sm font-medium",
-          true && "bg-strong",
-        )}
-      >
-        1
-      </div>
-      <div className="flex items-center justify-center gap-0.5 rounded-lg px-3.5 py-1.5 text-sm font-medium">
-        2
-      </div>
-      <div className="flex items-center justify-center gap-0.5 rounded-lg px-3.5 py-1.5 text-sm font-medium">
-        3
-      </div>
-      <div className="flex items-center justify-center gap-0.5 rounded-lg px-3.5 py-1.5 text-sm font-medium">
-        4
-      </div>
-      <div className="flex items-center justify-center gap-0.5 rounded-lg px-3.5 py-1.5 text-sm font-medium">
-        ....
-      </div>
-      <div className="flex items-center justify-center gap-0.5 rounded-lg px-3.5 py-1.5 text-sm font-medium">
-        104
-      </div> */}
       <button
         type="button"
         onClick={() => handleSetPage(currentPage + 1)}

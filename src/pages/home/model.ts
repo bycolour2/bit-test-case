@@ -90,11 +90,7 @@ sample({
   target: $usersListError,
 });
 
-sample({
-  clock: debouncedSearchChanged,
-  fn: () => "",
-  target: $usersListError,
-});
+reset({ clock: debouncedSearchChanged, target: $usersListError });
 
 // drawer logic
 

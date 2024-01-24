@@ -22,7 +22,7 @@ export const HomePage = () => {
 
   return (
     <>
-      <main className="bg-base-black flex h-[1092px] flex-col items-center justify-end gap-[27px] overflow-x-hidden pt-6 text-white md:h-[1173px] md:items-start md:justify-start md:gap-8 md:px-10 md:py-[34px] lg:h-screen lg:max-h-screen lg:justify-start lg:px-[25px]">
+      <main className="bg-base-black flex h-[1092px] flex-col items-center justify-end gap-[27px]  pt-6 text-white md:h-screen md:items-start md:justify-start md:gap-8 md:px-10 md:py-[34px] lg:px-[25px]">
         <header className="bg-gray4 flex h-[49px] w-[343px] flex-row items-center gap-3.5 rounded-[10px] px-4 py-2.5 md:h-[78px] md:w-full md:gap-11 md:rounded-[17px] md:px-[18px] md:py-3.5 lg:h-[82px]">
           <div className="flex h-[29px] flex-shrink-0 items-center pr-[26px] text-[22px] font-semibold">
             BitTest
@@ -45,7 +45,7 @@ export const HomePage = () => {
             </div>
           </div>
         </header>
-        <section className="bg-gray4 flex h-[992px] w-full flex-grow flex-col px-4 md:w-full md:rounded-[18px] md:px-6 lg:h-[1019px]">
+        <section className="bg-gray4 flex w-full flex-grow flex-col overflow-y-scroll px-4 pb-8 md:w-full md:rounded-[18px] md:px-6">
           <h1 className="py-[18px] text-lg font-semibold md:py-6 md:text-xl">
             Моя организация
           </h1>
