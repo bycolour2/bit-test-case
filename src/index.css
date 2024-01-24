@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-base-black;
+  }
+
+  @font-face {
+    font-family: "IBMPlexSans-Regular";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: optional;
+    src: url(/IBMPlexSans-Regular.woff2) format("woff2");
+  }
+}
